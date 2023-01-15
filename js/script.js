@@ -164,7 +164,7 @@ function generateAuthors(){
     const author = article.getAttribute('data-author');
     console.log('author:', author);
     /* generate HTML of the link */
-    const linkHTML = '<li><a href="#author-' + author + '"><span>' + author + '</span></a></li>';
+    const linkHTML = '<a href="#author-' + author + '">' + 'by ' + author + '</a>';
     console.log('linkHTML:', linkHTML);
     /* add generated code to html variable */
     html = html + linkHTML;
