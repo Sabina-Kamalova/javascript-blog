@@ -2,8 +2,8 @@
 
 /* Variables */
 
-$color-light: #fff;
-$color-dark: #444;
+$color-light:aquamarine;;
+$color-dark: #003300;
 
 $font-logo: 'Sacramento', cursive;
 $font-header: 'Oswald', sans-serif;
@@ -57,7 +57,7 @@ body {
 }
 
 .sidebar, .posts {
-  background: $color-light;
+  background: antiquewhite;;
   margin-right: 10px;
   padding: 40px;
   border: 1px solid $color-dark;
@@ -90,8 +90,11 @@ body {
     display: inline-block;
     margin: 0 5px;
   }
+  a {
+    text-decoration: none;
+  }
 }
-
+  
 /* Authors */
 
 .authors {
