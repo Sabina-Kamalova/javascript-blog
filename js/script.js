@@ -34,6 +34,8 @@ const optArticleSelector = '.post',
 const optArticleTagsSelector = '.post-tags .list';
 const optArticleAuthorSelector = '.post-author';
 const optTagsListSelector = '.tags.list';
+const optCloudClassCount = '5';
+const optCloudClassPrefix = 'tag-size-';
 
 function generateTitleLinks(customSelector = ''){
 
@@ -83,8 +85,22 @@ function calculateTagsParams(tags){
   const params = {max: 0, min: 999999};
   for(let tag in tags){
     console.log(tag + ' is used ' + tags[tag] + ' times');
+    if(tags[tag] > params.max){
+      params.max = tags[tag];
+    }
+    else if(tags[tag] < params.min){
+      params.min = tags[tag];
+    }
   }
   return params;
+}
+calculateTagsParams();
+function calculateTagClass(count,params){
+  const normalizedCount = count - params.min;
+  const normalizedMax = params.max - params.min;
+  const percentage = normalizedCount / normalizedMax;
+  const classNumber = Math.floor( percentage * (optCloudClassCount - 1) + 1 );
+  return optCloudClassPrefix + classNumber;
 }
 function generateTags(){
   /* [NEW] create a new variable allTags with an empty object */
@@ -138,13 +154,17 @@ function generateTags(){
   /* [NEW] START LOOP: for each tag in allTags */
   for(let tag in allTags){
     /* [NEW] generate code of a link and add it to allTagsHTML */
-    allTagsHTML += '<a href="#tag-' + tag + '"><span>' + tag + '</span></a>' + '('+ allTags[tag] +')';
+    //allTagsHTML += '<a href="#tag-' + tag + '"><span>' + tag + '</span></a>' + '('+ allTags[tag] +')';
+    const tagLinkHTML = '<li><a href="#tag-' + tag + '" class = '+ calculateTagClass(allTags[tag], tagsParams)+'>' + tag + '</a></li>';
+    console.log('tagLinkHTML:', tagLinkHTML);
+    allTagsHTML += tagLinkHTML;
     /*[NEW] END LOOP: for each tag in allTags */
   }
   
   /* [NEW] add html from allTagsHTML to tagList */
   tagList.innerHTML = allTagsHTML;
 }
+generateTags();
 function tagClickHandler(event){
   /* prevent default action for this event */
   event.preventDefault();
@@ -159,7 +179,7 @@ function tagClickHandler(event){
   /* START LOOP: for each active tag link */
   for(let activeLink of activeLinks){
     /* remove class active */
-    activeLink.classList.remove('active')
+    activeLink.classList.remove('active');
   /* END LOOP: for each active tag link */
   }
   /* find all tag links with "href" attribute equal to the "href" constant */
@@ -188,7 +208,7 @@ function addClickListenersToTags(){
 
 addClickListenersToTags();
 
-generateTags();
+
 
 function generateAuthors(){
   /* find all articles */
